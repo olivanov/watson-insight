@@ -3,32 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>visualRecognitionKey</key>
-	<string>5db21365f27e1c66ff6b2ad150607e71a6291cd1</string>
+	<string>API key</string>
 	<key>visualRecognitionVersion</key>
-	<string>2016-09-22</string>
+	<string>YYYY-MM-DD</string>
 	<key>speechToTextUsername</key>
-	<string>83dd7613-4d69-4c63-8f2d-47b125f739a1</string>
+	<string>Username</string>
 	<key>speechToTextPassword</key>
-	<string>WKqSkLaudlgl</string>
+	<string>Password</string>
 	<key>documentConversionUsername</key>
-	<string>861323d5-0e22-4272-a4a7-f8e78497d3dd</string>
+	<string>Username</string>
 	<key>documentConversionPassword</key>
-	<string>4V2NzmVTkcoC</string>
+	<string>Password</string>
 	<key>documentConversionVersion</key>
-	<string>2016-09-22</string>
+	<string>YYYY-MM-DD</string>
 	<key>textToSpeechUsername</key>
-	<string>e085b80c-a607-49bd-8f79-c20cdca497f4</string>
+	<string>Username</string>
 	<key>textToSpeechPassword</key>
-	<string>17vgobaXWOac</string>
+	<string>Password</string>
 	<key>personalityInsightsUsername</key>
-	<string>24d3842a-e0c1-40c4-9230-d7194f2297de</string>
+	<string>Username</string>
 	<key>personalityInsightsPassword</key>
-	<string>EjAI26JDbVvE</string>
+	<string>Password</string>
 	<key>toneAnalyzerUsername</key>
-	<string>ac6aa49d-0f7f-44e8-8206-76e8582a8e7a</string>
+	<string>Username</string>
 	<key>toneAnalyzerPassword</key>
-	<string>LX0GDqUo14QA</string>
+	<string>Password</string>
 	<key>toneAnalyzerVersion</key>
-	<string>2016-09-27</string>
+	<string>YYYY-MM-DD</string>
 </dict>
 </plist>
