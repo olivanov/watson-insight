@@ -39,7 +39,6 @@
 		1281C9CE1D945F3400FEEEE6 /* DocumentConversionV1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1281C9CC1D945F1B00FEEEE6 /* DocumentConversionV1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1281C9D01D9530C900FEEEE6 /* TextToSpeechV1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1281C9CF1D9530C900FEEEE6 /* TextToSpeechV1.framework */; };
 		1281C9D11D9530DA00FEEEE6 /* TextToSpeechV1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1281C9CF1D9530C900FEEEE6 /* TextToSpeechV1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		12E4647B1D994007001CC98D /* BluemixAccess.plist in Resources */ = {isa = PBXBuildFile; fileRef = 12E4647A1D994007001CC98D /* BluemixAccess.plist */; };
 		12E4647F1D9A619C001CC98D /* ToneAnalyzerV3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12E4647E1D9A619C001CC98D /* ToneAnalyzerV3.framework */; };
 		12E464811D9A61AD001CC98D /* PersonalityInsightsV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12E464801D9A61AD001CC98D /* PersonalityInsightsV2.framework */; };
 		12E464821D9A61B8001CC98D /* PersonalityInsightsV2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 12E464801D9A61AD001CC98D /* PersonalityInsightsV2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -105,7 +104,6 @@
 		1281C9B61D941F5200FEEEE6 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		1281C9CC1D945F1B00FEEEE6 /* DocumentConversionV1.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DocumentConversionV1.framework; path = Carthage/Build/iOS/DocumentConversionV1.framework; sourceTree = "<group>"; };
 		1281C9CF1D9530C900FEEEE6 /* TextToSpeechV1.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TextToSpeechV1.framework; path = Carthage/Build/iOS/TextToSpeechV1.framework; sourceTree = "<group>"; };
-		12E4647A1D994007001CC98D /* BluemixAccess.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BluemixAccess.plist; sourceTree = "<group>"; };
 		12E4647E1D9A619C001CC98D /* ToneAnalyzerV3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ToneAnalyzerV3.framework; path = Carthage/Build/iOS/ToneAnalyzerV3.framework; sourceTree = "<group>"; };
 		12E464801D9A61AD001CC98D /* PersonalityInsightsV2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PersonalityInsightsV2.framework; path = Carthage/Build/iOS/PersonalityInsightsV2.framework; sourceTree = "<group>"; };
 		12F1BFA71D8A8389007ECFC4 /* VisualRecognitionV3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VisualRecognitionV3.framework; path = Carthage/Build/iOS/VisualRecognitionV3.framework; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 			isa = PBXGroup;
 			children = (
 				1281C9A61D941F5200FEEEE6 /* AppDelegate.swift */,
-				12E4647A1D994007001CC98D /* BluemixAccess.plist */,
 				1281C9AF1D941F5200FEEEE6 /* Info.plist */,
 				1281C9AA1D941F5200FEEEE6 /* Main.storyboard */,
 				1281C9AE1D941F5200FEEEE6 /* HomeView.swift */,
@@ -305,7 +302,6 @@
 			files = (
 				1281C9BD1D941F5200FEEEE6 /* Main.storyboard in Resources */,
 				1281C9BC1D941F5200FEEEE6 /* LaunchScreen.storyboard in Resources */,
-				12E4647B1D994007001CC98D /* BluemixAccess.plist in Resources */,
 				1281C9BB1D941F5200FEEEE6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
