@@ -14,7 +14,6 @@ protocol AnalysisSelectionViewDelegate {
 
 class AnalysisSelectionView: UITableViewController {
 
-	var recognizedText: String!
 	var delegate: AnalysisSelectionViewDelegate?
 
     override func viewDidLoad() {

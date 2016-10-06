@@ -65,5 +65,8 @@ fastlane/test_output
 # Exclude Images
 Images/
 
+# Exclude Archive
+Archive/
+
 # Exclude Bluemix services access information
 WatsonInsight/BluemixAccess.plist
