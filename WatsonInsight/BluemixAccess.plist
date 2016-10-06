@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>visualRecognitionKey</key>
+	<string>API key</string>
+	<key>visualRecognitionVersion</key>
+	<string>YYYY-MM-DD</string>
+	<key>speechToTextUsername</key>
+	<string>Username</string>
+	<key>speechToTextPassword</key>
+	<string>Password</string>
+	<key>documentConversionUsername</key>
+	<string>Username</string>
+	<key>documentConversionPassword</key>
+	<string>Password</string>
+	<key>documentConversionVersion</key>
+	<string>YYYY-MM-DD</string>
+	<key>textToSpeechUsername</key>
+	<string>Username</string>
+	<key>textToSpeechPassword</key>
+	<string>Password</string>
+	<key>personalityInsightsUsername</key>
+	<string>Username</string>
+	<key>personalityInsightsPassword</key>
+	<string>Password</string>
+	<key>toneAnalyzerUsername</key>
+	<string>Username</string>
+	<key>toneAnalyzerPassword</key>
+	<string>Password</string>
+	<key>toneAnalyzerVersion</key>
+	<string>YYYY-MM-DD</string>
+</dict>
+</plist>
