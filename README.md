@@ -3,7 +3,7 @@ iOS Swift app using the [iOS Watson SDK](https://github.com/watson-developer-clo
 
 ## Overview
 This is a demo iOS Swift app providing some cognitive analysis on content, that can be entered in 4 different ways:
-- Take a photo or chose one in the gallery. The `Visual Recognition API` is used to run a classification, detect faces and extract the text to be further analyzed.
+- Take a photo or chose one in the gallery. The `Visual Recognition API` is used to run a classification and face detection.
 - Use the iPhone microphone. The `Speech To Text API` is used to generate a text transcription. 
 - Open a Word or PDF document with the app. The `Document Conversion API` is used to convert the content in plain text. 
 - Compose or copy-paste some text. 
@@ -15,7 +15,7 @@ Once the text content set, it can be spoken through the `Text To Speech API` and
 ## Requirements
 - iOS 9.0+
 - Xcode 8.0+
-- Swift 2.3
+- Swift 3.0+
 
 ## Watson APIs used
 The project uses the following Watson APIs on IBM Bluemix.
