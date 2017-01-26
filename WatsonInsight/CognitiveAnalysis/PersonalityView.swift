@@ -29,17 +29,21 @@ class PersonalityView: UITableViewController {
 			view.addSubview(activityView)
 			activityView.startAnimating()
 
-			personalityInsights.getProfile(text: inputText, acceptLanguage: NSLocale.preferredLanguages().first!, contentLanguage: "en", failure: { error in
-				self.navigationController?.popViewControllerAnimated(true)
-				AlertUtil.displayAlert(self.navigationController!, title: "Error", message: error.localizedFailureReason!)
+			personalityInsights.getProfile(fromText: inputText, acceptLanguage: Locale.preferredLanguages.first!, contentLanguage: "en", includeRaw: nil, failure: { error in
+				DispatchQueue.main.async {
+					_ = self.navigationController?.popViewController(animated: true)
+					AlertUtil.displayAlert(self.navigationController!, title: "Error", message: error.localizedDescription)
+				}
 				print(error)
 			}) { profile in
 
-				activityView.stopAnimating()
-				activityView.removeFromSuperview()
+				DispatchQueue.main.async {
+					activityView.stopAnimating()
+					activityView.removeFromSuperview()
 
-				self.tree = profile.tree
-				self.tableView.reloadData()
+					self.tree = profile.tree
+					self.tableView.reloadData()
+				}
 
 				print(profile)
 			}
@@ -51,7 +55,7 @@ class PersonalityView: UITableViewController {
 
 	// MARK: - Table view data source
 
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		guard let tree = tree else { return 0 }
 
 		if isRootLevel {
@@ -61,7 +65,7 @@ class PersonalityView: UITableViewController {
 		}
 	}
 
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		if isRootLevel {
 			return tree!.children![section].name
 		} else {
@@ -69,7 +73,7 @@ class PersonalityView: UITableViewController {
 		}
 	}
 
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if isRootLevel {
 			return tree!.children![section].children![0].children!.count
 		} else {
@@ -77,14 +81,14 @@ class PersonalityView: UITableViewController {
 		}
 	}
 
-	override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+	override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 		let header = view as! UITableViewHeaderFooterView
 		header.contentView.backgroundColor = UIColor(red: 120/255, green: 186/255, blue: 40/255, alpha: 1.0)
-		header.textLabel!.textColor = UIColor.whiteColor()
+		header.textLabel!.textColor = UIColor.white
 	}
 
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		guard let cell = tableView.dequeueReusableCellWithIdentifier("personalityCell") as? CognitiveCell else { return UITableViewCell() }
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "personalityCell") as? CognitiveCell else { return UITableViewCell() }
 
 		let node: TraitTreeNode
 		if isRootLevel {
@@ -97,9 +101,9 @@ class PersonalityView: UITableViewController {
 		cell.scoreProgressView.setProgress(Float(node.percentage!), animated: false)
 
 		if node.children != nil {
-			cell.accessoryType = .DisclosureIndicator
+			cell.accessoryType = .disclosureIndicator
 		} else {
-			cell.accessoryType = .None
+			cell.accessoryType = .none
 		}
 
 		return cell
@@ -107,7 +111,7 @@ class PersonalityView: UITableViewController {
 
     // MARK: - Navigation
 
-	override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+	override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
 		let indexPath = tableView.indexPathForSelectedRow!
 		if isRootLevel && tree?.children![indexPath.section].children![0].children![indexPath.row].children != nil {
 			return true
@@ -116,10 +120,10 @@ class PersonalityView: UITableViewController {
 		}
 	}
 
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		let indexPath = tableView.indexPathForSelectedRow!
 		let subTree = tree?.children![indexPath.section].children![0].children![indexPath.row]
-		let personalityView = segue.destinationViewController as! PersonalityView
+		let personalityView = segue.destination as! PersonalityView
 		personalityView.tree = subTree
 		personalityView.isRootLevel = false
 		personalityView.navigationTitle = subTree?.name

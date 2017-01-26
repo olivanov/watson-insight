@@ -19,19 +19,19 @@ class ComposeInputView: UIViewController, UITextViewDelegate {
 
 		if let inputText = inputText {
 			textView.text = inputText
-			textView.setContentOffset(CGPointZero, animated: false)
+			textView.setContentOffset(CGPoint.zero, animated: false)
 			navigationItem.title = "Edit"
-			nextButton.enabled = true
+			nextButton.isEnabled = true
 		} else {
 			textView.text = ""
 			textView.becomeFirstResponder()
 		}
 
 		textView.delegate = self
-		textView.returnKeyType = .Done
+		textView.returnKeyType = .done
     }
 
-	func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 		if text == "\n" {
 			textView.resignFirstResponder()
 			return false
@@ -39,18 +39,18 @@ class ComposeInputView: UIViewController, UITextViewDelegate {
 		return true
 	}
 
-	func textViewDidChange(textView: UITextView) {
-		if textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) != "" {
-			nextButton.enabled = true
+	func textViewDidChange(_ textView: UITextView) {
+		if textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) != "" {
+			nextButton.isEnabled = true
 		} else {
-			nextButton.enabled = false
+			nextButton.isEnabled = false
 		}
 	}
 
     // MARK: - Navigation
 
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-		let textAnalysisView = segue.destinationViewController as! TextAnalysisView
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		let textAnalysisView = segue.destination as! TextAnalysisView
 
 		textAnalysisView.inputText = textView.text
 	}

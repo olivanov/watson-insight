@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class ImageUtil {
-	static func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage?
+	static func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage?
 	{
 		let size = image.size
 
@@ -19,15 +19,15 @@ class ImageUtil {
 
 		var newSize: CGSize
 		if(widthRatio > heightRatio) {
-			newSize = CGSizeMake(size.width * heightRatio, size.height * heightRatio)
+			newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
 		} else {
-			newSize = CGSizeMake(size.width * widthRatio,  size.height * widthRatio)
+			newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
 		}
 
-		let rect = CGRectMake(0, 0, newSize.width, newSize.height)
+		let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
 
 		UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-		image.drawInRect(rect)
+		image.draw(in: rect)
 		let newImage = UIGraphicsGetImageFromCurrentImageContext()
 		UIGraphicsEndImageContext()
 

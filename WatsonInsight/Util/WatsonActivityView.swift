@@ -31,6 +31,6 @@ class WatsonActivityView: UIImageView {
 			UIImage(named: "watsonThinking2")!]
 		animationDuration = 1
 
-		contentMode = .Center
+		contentMode = .center
 	}
 }

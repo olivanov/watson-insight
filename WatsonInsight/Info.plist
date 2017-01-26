@@ -75,11 +75,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>The camera is used to analyze a taken photo</string>
+	<string>The camera is used to submit photos for analysis</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>The microphone is used to analyze recorded voice</string>
+	<string>The microphone is used to transcript voice for analysis</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>The gallery is used to analyze a photo from the gallery</string>
+	<string>The gallery is used to select a photo from the gallery for analysis</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

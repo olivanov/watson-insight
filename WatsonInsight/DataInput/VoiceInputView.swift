@@ -27,7 +27,7 @@ class VoiceInputView: UIViewController, UITextViewDelegate {
 
 		textView.text = ""
 		textView.delegate = self
-		textView.returnKeyType = .Done
+		textView.returnKeyType = .done
 
 		// Define callbacks
 		speechToTextSession.onConnect = connectHandler
@@ -37,7 +37,7 @@ class VoiceInputView: UIViewController, UITextViewDelegate {
 		speechToTextSession.onResults = resultsHandler
 	}
 
-	@IBAction func recButtonDidPress(sender: UIButton) {
+	@IBAction func recButtonDidPress(_ sender: UIButton) {
 		if !isRecording {
 			let session: AVAudioSession = AVAudioSession.sharedInstance()
 			session.requestRecordPermission() { allowed in
@@ -45,24 +45,28 @@ class VoiceInputView: UIViewController, UITextViewDelegate {
 					AlertUtil.displayAlert(self, title: "No microphone available", message: "Please authorize access to the microphone")
 					return
 				} else {
-					if !Reachability.isReachable() {
+					if !Reachability()!.isReachable {
 						AlertUtil.displayAlert(self, title: "No internet connection", message: "Internet connection is required to reach Watson")
 						return
 					}
 
-					var settings = RecognitionSettings(contentType: .Opus)
+					var settings = RecognitionSettings(contentType: .opus)
 					settings.interimResults = true
 					settings.continuous = true
 
-					self.recButton.enabled = false
+					self.recButton.isEnabled = false
+
+					try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+					try? AVAudioSession.sharedInstance().setActive(true)
 
 					self.speechToTextSession.connect()
-					self.speechToTextSession.startRequest(settings)
+					self.speechToTextSession.startRequest(settings: settings)
 					self.speechToTextSession.startMicrophone()
+
 				}
 			}
 		} else {
-			self.recButton.enabled = false
+			self.recButton.isEnabled = false
 			speechToTextSession.stopMicrophone()
 			speechToTextSession.stopRequest()
 			speechToTextSession.disconnect()
@@ -71,29 +75,29 @@ class VoiceInputView: UIViewController, UITextViewDelegate {
 
 	func connectHandler() {
 		navigationItem.hidesBackButton = true
-		nextButton.enabled = false
-		textView.editable = false
+		nextButton.isEnabled = false
+		textView.isEditable = false
 		activityIndicator.image = UIImage(named: "watsonListening0")
-		recButton.setImage(UIImage(named: "recOn"), forState: .Normal)
+		recButton.setImage(UIImage(named: "recOn"), for: UIControlState())
 		isRecording = true
-		recButton.enabled = true
+		recButton.isEnabled = true
 		print("connected")
 	}
 
 	func disconnectHandler() {
 		navigationItem.hidesBackButton = false
-		textView.editable = true
-		if textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) != "" {
-			nextButton.enabled = true
+		textView.isEditable = true
+		if textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) != "" {
+			nextButton.isEnabled = true
 		}
 		activityIndicator.image = UIImage(named: "watsonLogo")
-		recButton.setImage(UIImage(named: "recOff"), forState: .Normal)
+		recButton.setImage(UIImage(named: "recOff"), for: UIControlState())
 		isRecording = false
-		recButton.enabled = true
+		recButton.isEnabled = true
 		print("disconnected")
 	}
 
-	func errorHandler(error: NSError) {
+	func errorHandler(_ error: Error) {
 		speechToTextSession.stopMicrophone()
 		speechToTextSession.stopRequest()
 		speechToTextSession.disconnect()
@@ -103,19 +107,19 @@ class VoiceInputView: UIViewController, UITextViewDelegate {
 		print(error)
 	}
 
-	func powerDataHandler(decibels: Float32) {
+	func powerDataHandler(_ decibels: Float32) {
 		if isRecording {
 			let level = min(6, max(0, Int(6 + decibels/10)))
-			activityIndicator.image = UIImage(named: "watsonListening" + level.description)
+				activityIndicator.image = UIImage(named: "watsonListening" + level.description)
 		}
 	}
 
-	func resultsHandler(results: SpeechRecognitionResults) {
+	func resultsHandler(_ results: SpeechRecognitionResults) {
 		textView.text = results.bestTranscript
 		print(results.bestTranscript)
 	}
 
-	func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 		if text == "\n" {
 			textView.resignFirstResponder()
 			return false
@@ -123,18 +127,18 @@ class VoiceInputView: UIViewController, UITextViewDelegate {
 		return true
 	}
 
-	func textViewDidChange(textView: UITextView) {
-		if textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) != "" {
-			nextButton.enabled = true
+	func textViewDidChange(_ textView: UITextView) {
+		if textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) != "" {
+			nextButton.isEnabled = true
 		} else {
-			nextButton.enabled = false
+			nextButton.isEnabled = false
 		}
 	}
 
     // MARK: - Navigation
 
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-		let textAnalysisView = segue.destinationViewController as! TextAnalysisView
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		let textAnalysisView = segue.destination as! TextAnalysisView
 
 		textAnalysisView.inputText = textView.text
 	}

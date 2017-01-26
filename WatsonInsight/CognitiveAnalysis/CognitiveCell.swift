@@ -15,6 +15,6 @@ class CognitiveCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-		scoreProgressView.transform = CGAffineTransformMakeScale(1, 6)
+		scoreProgressView.transform = CGAffineTransform(scaleX: 1, y: 6)
     }
 }

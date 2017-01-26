@@ -28,11 +28,11 @@ class ImageInputView: UIViewController, UINavigationControllerDelegate, UIImageP
 
 	// MARK: Image picker
 
-	@IBAction func cameraButtonDidPress(sender: UIBarButtonItem) {
-		guard AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo) == .Authorized else {
-			AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+	@IBAction func cameraButtonDidPress(_ sender: UIBarButtonItem) {
+		guard AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized else {
+			AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { granted in
 				if granted {
-					self.showCameraController(.Camera)
+					self.showCameraController(.camera)
 				} else {
 					AlertUtil.displayAlert(self, title: "No camera available", message: "Please authorize access to the camera")
 				}
@@ -40,14 +40,14 @@ class ImageInputView: UIViewController, UINavigationControllerDelegate, UIImageP
 			return
 		}
 
-		self.showCameraController(.Camera)
+		self.showCameraController(.camera)
 	}
 
-	@IBAction func galleryButtonDidPress(sender: UIBarButtonItem) {
-		guard PHPhotoLibrary.authorizationStatus() == .Authorized else {
+	@IBAction func galleryButtonDidPress(_ sender: UIBarButtonItem) {
+		guard PHPhotoLibrary.authorizationStatus() == .authorized else {
 			PHPhotoLibrary.requestAuthorization {status in
-				if status == .Authorized {
-					self.showCameraController(.PhotoLibrary)
+				if status == .authorized {
+					self.showCameraController(.photoLibrary)
 				} else {
 					AlertUtil.displayAlert(self, title: "No gallery available", message: "Please authorize access to the photo gallery")
 				}
@@ -55,11 +55,11 @@ class ImageInputView: UIViewController, UINavigationControllerDelegate, UIImageP
 			return
 		}
 
-		self.showCameraController(.PhotoLibrary)
+		self.showCameraController(.photoLibrary)
 	}
 
-	func showCameraController(sourceType: UIImagePickerControllerSourceType) {
-		if !Reachability.isReachable() {
+	func showCameraController(_ sourceType: UIImagePickerControllerSourceType) {
+		if !Reachability()!.isReachable {
 			AlertUtil.displayAlert(self, title: "No internet connection", message: "Internet connection is required to reach Watson")
 			return
 		}
@@ -68,69 +68,71 @@ class ImageInputView: UIViewController, UINavigationControllerDelegate, UIImageP
 		picker.sourceType = sourceType
 		picker.delegate = self
 
-		self.presentViewController(picker, animated: true, completion: nil)
+		self.present(picker, animated: true, completion: nil)
 	}
 
-	func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 		guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
-		imageView.contentMode = .ScaleAspectFit
+		imageView.contentMode = .scaleAspectFit
 		imageView.image = image
 		saveImageToFile(image)
 
-		activityBackground.hidden = false
+		activityBackground.isHidden = false
 		activityIndicator.startAnimating()
 		navigationItem.hidesBackButton = true
 
 		visualRecognitionModel.analyze(imageFileURL(), modelDidChange: {
-			self.tableView.reloadData()
+			DispatchQueue.main.async {
+				self.tableView.reloadData()
+			}
 		}) {
-			self.activityBackground.hidden = true
-			self.activityIndicator.stopAnimating()
-			self.navigationItem.hidesBackButton = false
+			DispatchQueue.main.async {
+				self.activityBackground.isHidden = true
+				self.activityIndicator.stopAnimating()
+				self.navigationItem.hidesBackButton = false
+			}
 		}
 
-		dismissViewControllerAnimated(true, completion: nil)
+		dismiss(animated: true, completion: nil)
 	}
 
 	// MARK: Image file management
 
-	func saveImageToFile(image: UIImage) {
-		let applicationSupportDir = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask).first!
-		let fileManager = NSFileManager.defaultManager()
-		if !fileManager.fileExistsAtPath(applicationSupportDir.path!) {
+	func saveImageToFile(_ image: UIImage) {
+		let applicationSupportDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+		let fileManager = FileManager.default
+		if !fileManager.fileExists(atPath: applicationSupportDir.path) {
 			do {
-				try fileManager.createDirectoryAtURL(applicationSupportDir, withIntermediateDirectories: true, attributes: nil)
+				try fileManager.createDirectory(at: applicationSupportDir, withIntermediateDirectories: true, attributes: nil)
 			}
 			catch let err { print(err) }
 		}
 
 		let resizedImage = ImageUtil.resizeImage(image, targetSize: CGSize(width: 1024, height: 768))
 		let jpegImage = UIImageJPEGRepresentation(resizedImage!, 0.8)
-		jpegImage!.writeToFile(imageFileURL().path!, atomically: true)
+		try? jpegImage!.write(to: URL(fileURLWithPath: imageFileURL().path), options: [.atomic])
 	}
 
-	func imageFileURL() -> NSURL {
-		return NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask).first!.URLByAppendingPathComponent("image.jpg")!
+	func imageFileURL() -> URL {
+		return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!.appendingPathComponent("image.jpg")
 	}
 
 	// MARK: Table view lifecycle
 
-	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	func numberOfSections(in tableView: UITableView) -> Int {
 		return visualRecognitionModel.sections.count
 	}
 
-	func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		 return visualRecognitionModel.sections[section]
 	}
 
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		let sectionName = visualRecognitionModel.sections[section]
 
 		switch sectionName {
 		case "Faces":
 			return visualRecognitionModel.faces!.count
-		case "Text":
-			return 1
 		case "Classes":
 			return visualRecognitionModel.classifications!.count
 		default:
@@ -138,30 +140,26 @@ class ImageInputView: UIViewController, UINavigationControllerDelegate, UIImageP
 		}
 	}
 
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let sectionName = visualRecognitionModel.sections[indexPath.section]
 
 		switch sectionName {
 		case "Faces":
-			let cell = tableView.dequeueReusableCellWithIdentifier("faceCell") as! FaceCell
+			let cell = tableView.dequeueReusableCell(withIdentifier: "faceCell") as! FaceCell
 			let face = visualRecognitionModel.faces![indexPath.row]
 			if let identity = face.identity {
 				cell.genderLabel.text = identity.name
 			} else {
-				cell.genderLabel.text = face.gender.gender.lowercaseString
+				cell.genderLabel.text = face.gender.gender.lowercased()
 			}
-			cell.ageLabel.text = "Age \(face.age.min)-\(face.age.max)"
+			cell.ageLabel.text = "Age \(face.age.min!)-\(face.age.max!)"
 			cell.faceImageView.image = visualRecognitionModel.facesPics[indexPath.row]
 			return cell
-		case "Text":
-			let cell = tableView.dequeueReusableCellWithIdentifier("textCell") as! TextCell
-			cell.textView.text = visualRecognitionModel.text
-			return cell
 		case "Classes":
-			let cell = tableView.dequeueReusableCellWithIdentifier("classificationCell") as! ClassificationCell
+			let cell = tableView.dequeueReusableCell(withIdentifier: "classificationCell") as! ClassificationCell
 			cell.classificationLabel.text = visualRecognitionModel.classifications![indexPath.row].classification
 			if let hierarchy = visualRecognitionModel.classifications![indexPath.row].typeHierarchy {
-				cell.classificationLabel.text?.appendContentsOf(" [" + hierarchy + "]")
+				cell.classificationLabel.text?.append(" [" + hierarchy + "]")
 			}
 			cell.setScoreOpacity(visualRecognitionModel.classifications![indexPath.row].score)
 			return cell
@@ -170,17 +168,15 @@ class ImageInputView: UIViewController, UINavigationControllerDelegate, UIImageP
 		}
 	}
 
-	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		let sectionName = visualRecognitionModel.sections[indexPath.section]
 		let cell: UITableViewCell
 
 		switch sectionName {
 		case "Faces":
-			cell = tableView.dequeueReusableCellWithIdentifier("faceCell")!
-		case "Text":
-			cell = tableView.dequeueReusableCellWithIdentifier("textCell")!
+			cell = tableView.dequeueReusableCell(withIdentifier: "faceCell")!
 		case "Classes":
-			cell = tableView.dequeueReusableCellWithIdentifier("classificationCell")!
+			cell = tableView.dequeueReusableCell(withIdentifier: "classificationCell")!
 		default:
 			return 0
 		}
@@ -188,18 +184,10 @@ class ImageInputView: UIViewController, UINavigationControllerDelegate, UIImageP
 		return cell.bounds.size.height
 	}
 
-	func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 		let header = view as! UITableViewHeaderFooterView
 		header.contentView.backgroundColor = UIColor(red: 120/255, green: 186/255, blue: 40/255, alpha: 1.0)
-		header.textLabel!.textColor = UIColor.whiteColor()
-	}
-
-    // MARK: - Navigation
-
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-		let composeInputView = segue.destinationViewController as! ComposeInputView
-
-		composeInputView.inputText = visualRecognitionModel.text
+		header.textLabel!.textColor = UIColor.white
 	}
 
 }

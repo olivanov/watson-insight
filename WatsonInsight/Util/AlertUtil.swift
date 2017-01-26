@@ -9,11 +9,11 @@
 import UIKit
 
 class AlertUtil {
-	static func displayAlert(controller: UIViewController, title: String, message: String) {
-		let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-		let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+	static func displayAlert(_ controller: UIViewController, title: String, message: String) {
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let action = UIAlertAction(title: "OK", style: .default, handler: nil)
 		alertController.addAction(action)
 
-		controller.presentViewController(alertController, animated: true, completion: nil)
+		controller.present(alertController, animated: true, completion: nil)
 	}
 }

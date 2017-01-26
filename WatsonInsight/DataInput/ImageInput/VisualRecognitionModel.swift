@@ -17,7 +17,6 @@ class VisualRecognitionModel {
 
 	var classifications: [Classification]?
 	var faces: [Face]?
-	var text: String?
 
 	var facesPics = [UIImage]()
 	var sections = [String]()
@@ -25,18 +24,17 @@ class VisualRecognitionModel {
 	private func resetResult() {
 		classifications = nil
 		faces = nil
-		text = nil
 
 		facesPics = [UIImage]()
 		sections = [String]()
 	}
 
-	func analyze(imageFileURL: NSURL, modelDidChange: () -> Void, completion: () -> Void) {
+	func analyze(_ imageFileURL: URL, modelDidChange: @escaping () -> Void, completion: @escaping () -> Void) {
 		resetResult()
 		modelDidChange()
 
 		print("Start classifying...")
-		self.visualRecognition.classify(imageFileURL, parameters: nil, outputLanguage: "en", failure: { error in
+		self.visualRecognition.classify(imageFile: imageFileURL, owners: nil, classifierIDs: nil, threshold: nil, language: "en", failure: { error in
 			print(error)
 			completion()
 		}) { classifiedImages in
@@ -52,7 +50,7 @@ class VisualRecognitionModel {
 			}
 
 			print("Start face detection...")
-			self.visualRecognition.detectFaces(imageFileURL, parameters: nil, failure: { error in
+			self.visualRecognition.detectFaces(inImageFile: imageFileURL, failure: { error in
 				print(error)
 				completion()
 			}) { imagesWithFaces in
@@ -65,36 +63,20 @@ class VisualRecognitionModel {
 						self.sections.append("Faces")
 
 						for face in faces {
-							self.facesPics.append(self.extractSubImage(CGRect(x: face.location.left, y: face.location.top, width: face.location.width, height: face.location.height), image: UIImage(contentsOfFile: imageFileURL.relativePath!)!))
+							self.facesPics.append(self.extractSubImage(CGRect(x: face.location.left, y: face.location.top, width: face.location.width, height: face.location.height), image: UIImage(contentsOfFile: imageFileURL.relativePath)!))
 						}
 						modelDidChange()
 					}
 				}
 
-				print("Start text recognition...")
-				self.visualRecognition.recognizeText(imageFileURL, parameters: nil, failure: { error in
-					print(error)
-					completion()
-				}) { imagesWithWords in
-					print("Text recognition done - Results:")
-					print(imagesWithWords)
-
-					if let text = imagesWithWords.images.first?.text {
-						if text != "" {
-							self.text = text
-							self.sections.append("Text")
-							modelDidChange()
-						}
-					}
-					completion()
-				}
+				completion()
 			}
 		}
 	}
 
-	private func extractSubImage(cropRect: CGRect, image: UIImage) -> UIImage {
-		let imageRef = CGImageCreateWithImageInRect(image.CGImage!, cropRect)
-		let image = UIImage(CGImage: imageRef!, scale: image.scale, orientation: image.imageOrientation)
+	fileprivate func extractSubImage(_ cropRect: CGRect, image: UIImage) -> UIImage {
+		let imageRef = image.cgImage!.cropping(to: cropRect)
+		let image = UIImage(cgImage: imageRef!, scale: image.scale, orientation: image.imageOrientation)
 
 		return image
 	}

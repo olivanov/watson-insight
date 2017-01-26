@@ -29,10 +29,10 @@ class BluemixAccess {
 	var toneAnalyzerPassword: String? = nil
 	var toneAnalyzerVersion: String? = nil
 
-	static private let bluemixAccess = BluemixAccess()
+	static fileprivate let bluemixAccess = BluemixAccess()
 
-	private init() {
-		if let bluemixAccessFilePath = NSBundle.mainBundle().pathForResource("BluemixAccess", ofType: "plist") {
+	fileprivate init() {
+		if let bluemixAccessFilePath = Bundle.main.path(forResource: "BluemixAccess", ofType: "plist") {
 			if let credentials = NSDictionary(contentsOfFile: bluemixAccessFilePath) as? Dictionary<String, String> {
 				visualRecognitionKey = credentials["visualRecognitionKey"]!
 				visualRecognitionVersion = credentials["visualRecognitionVersion"]!
