@@ -5,7 +5,7 @@
 	<key>visualRecognitionKey</key>
 	<string>5db21365f27e1c66ff6b2ad150607e71a6291cd1</string>
 	<key>visualRecognitionVersion</key>
-	<string>2016-09-22</string>
+	<string>2017-01-25</string>
 	<key>speechToTextUsername</key>
 	<string>83dd7613-4d69-4c63-8f2d-47b125f739a1</string>
 	<key>speechToTextPassword</key>
@@ -15,7 +15,7 @@
 	<key>documentConversionPassword</key>
 	<string>4V2NzmVTkcoC</string>
 	<key>documentConversionVersion</key>
-	<string>2016-09-22</string>
+	<string>2017-01-25</string>
 	<key>textToSpeechUsername</key>
 	<string>e085b80c-a607-49bd-8f79-c20cdca497f4</string>
 	<key>textToSpeechPassword</key>
@@ -29,6 +29,6 @@
 	<key>toneAnalyzerPassword</key>
 	<string>LX0GDqUo14QA</string>
 	<key>toneAnalyzerVersion</key>
-	<string>2016-09-27</string>
+	<string>2017-01-25</string>
 </dict>
 </plist>

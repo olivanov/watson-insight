@@ -82,7 +82,6 @@
 		122253771D9EB488009D1C0A /* TextAnalysisView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnalysisView.swift; sourceTree = "<group>"; };
 		122CC8D41D86D8D400EA1003 /* WatsonInsight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatsonInsight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1281C99B1D92AD2000FEEEE6 /* SpeechToTextV1.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpeechToTextV1.framework; path = Carthage/Build/iOS/SpeechToTextV1.framework; sourceTree = "<group>"; };
-		1281C99E1D92D2C600FEEEE6 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
 		1281C9A61D941F5200FEEEE6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1281C9A71D941F5200FEEEE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1281C9A91D941F5200FEEEE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -98,8 +97,6 @@
 		12E4647E1D9A619C001CC98D /* ToneAnalyzerV3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ToneAnalyzerV3.framework; path = Carthage/Build/iOS/ToneAnalyzerV3.framework; sourceTree = "<group>"; };
 		12E464801D9A61AD001CC98D /* PersonalityInsightsV2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PersonalityInsightsV2.framework; path = Carthage/Build/iOS/PersonalityInsightsV2.framework; sourceTree = "<group>"; };
 		12F1BFA71D8A8389007ECFC4 /* VisualRecognitionV3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VisualRecognitionV3.framework; path = Carthage/Build/iOS/VisualRecognitionV3.framework; sourceTree = "<group>"; };
-		12F1BFAB1D8A9FB0007ECFC4 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		12F1BFAC1D8A9FB0007ECFC4 /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/iOS/Freddy.framework; sourceTree = "<group>"; };
 		12F1BFAD1D8A9FB0007ECFC4 /* RestKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RestKit.framework; path = Carthage/Build/iOS/RestKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -216,10 +213,7 @@
 				12E4647E1D9A619C001CC98D /* ToneAnalyzerV3.framework */,
 				1281C9CF1D9530C900FEEEE6 /* TextToSpeechV1.framework */,
 				1281C9CC1D945F1B00FEEEE6 /* DocumentConversionV1.framework */,
-				1281C99E1D92D2C600FEEEE6 /* Starscream.framework */,
 				1281C99B1D92AD2000FEEEE6 /* SpeechToTextV1.framework */,
-				12F1BFAB1D8A9FB0007ECFC4 /* Alamofire.framework */,
-				12F1BFAC1D8A9FB0007ECFC4 /* Freddy.framework */,
 				12F1BFAD1D8A9FB0007ECFC4 /* RestKit.framework */,
 				12F1BFA71D8A8389007ECFC4 /* VisualRecognitionV3.framework */,
 			);
