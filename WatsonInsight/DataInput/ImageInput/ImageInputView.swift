@@ -152,7 +152,13 @@ class ImageInputView: UIViewController, UINavigationControllerDelegate, UIImageP
 			} else {
 				cell.genderLabel.text = face.gender.gender.lowercased()
 			}
-			cell.ageLabel.text = "Age \(face.age.min!)-\(face.age.max!)"
+            if let ageMin = face.age.min, let ageMax = face.age.max {
+                cell.ageLabel.text = "Age \(ageMin)-\(ageMax)"
+            } else if let ageMin = face.age.min {
+                cell.ageLabel.text = "Age > \(ageMin)"
+            } else if let ageMax = face.age.max {
+                cell.ageLabel.text = "Age < \(ageMax)"
+            }
 			cell.faceImageView.image = visualRecognitionModel.facesPics[indexPath.row]
 			return cell
 		case "Classes":
